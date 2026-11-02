@@ -245,5 +245,27 @@ class ArgumentsTest(RunTest):
         self.assertEqual(self.stub_calls(), [])
 
 
+TRUST_TAP = ["brew", "trust", "--tap", "macos-intel/tap"]
+
+
+class TapTrustTest(RunTest):
+    def test_trusts_the_tap_before_reading_any_formula(self):
+        self.configure(plan="lz4 1.10.0\n")
+        result = self.run_script()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        argvs = self.fake.argvs()
+        self.assertIn(TRUST_TAP, argvs)
+        first_info = next(i for i, argv in enumerate(argvs) if argv[:2] == ["brew", "info"])
+        self.assertLess(argvs.index(TRUST_TAP), first_info)
+
+    def test_untrusted_tap_stops_the_run(self):
+        self.configure(plan="lz4 1.10.0\n")
+        self.fake.fail(*TRUST_TAP)
+        result = self.run_script()
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.built(), [])
+        self.assert_link_restored()
+
+
 if __name__ == "__main__":
     unittest.main()

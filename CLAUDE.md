@@ -274,6 +274,13 @@ rebuilds `reports/` from a fresh API snapshot plus local git history, taps and
   unlinked names wait in `pending-relink` until they are linked back; the
   next build or pour relinks them first.
 - Never hand-edit `bottle do` blocks; the builder writes them.
+- brew refuses formulae from an untrusted tap, and trusts one implicitly
+  only when `install`/`reinstall`/`upgrade` names it, so `brew info`,
+  `deps`, `bottle`, `test` and tap dependencies fail. `swap_taps_link`
+  (`run.sh`, `pour.sh`) runs `brew trust --tap macos-intel/tap` first
+  (run 41368707747 lost 35 formulae to this).
+- Keep the iMac awake while a build runs (`pmset sleep 0` on AC): host sleep
+  pauses the VM and the runner loses its job (run 41189416364).
 
 ## Shell environment
 
