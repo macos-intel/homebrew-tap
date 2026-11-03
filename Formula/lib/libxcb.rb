@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/libxcb.patch.
 class Libxcb < Formula
   desc "X.Org: Interface to the X Window System protocol"
@@ -9,6 +9,11 @@ class Libxcb < Formula
   compatibility_version 1
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/libxcb-1.17.0"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "c1030c32905cbc066a2cef56c19ab0a8b3461d84c48c826879c53867e6e395cd"
+  end
 
   depends_on "macos-intel/tap/pkgconf" => :build
   depends_on "macos-intel/tap/python@3.15" => :build # match version in `xcb-proto`
