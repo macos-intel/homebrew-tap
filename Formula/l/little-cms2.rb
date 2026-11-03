@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/little-cms2.patch.
 class LittleCms2 < Formula
   desc "Color management engine supporting ICC profiles"
@@ -21,6 +21,11 @@ class LittleCms2 < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/little-cms2-2.19.1"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "0ed8c0f2b780b5d1999727e3c3e4dc2993bab70a876bf8bb79ebf975310a0f75"
+  end
 
   depends_on "macos-intel/tap/jpeg-turbo"
   depends_on "macos-intel/tap/libtiff"
