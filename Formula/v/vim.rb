@@ -1,11 +1,11 @@
-# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@e33a004de45c251a3bffd3d754271445b0d9c8e5 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/vim.patch.
 class Vim < Formula
   desc "Vi 'workalike' with many additional features"
   homepage "https://www.vim.org/"
   # vim should only be updated once a day
-  url "https://github.com/vim/vim/archive/refs/tags/v9.2.1276.tar.gz"
-  sha256 "86526fd2cc08ef853442341d1f134b94fc765807a96b29f50ad906aac8b8d98c"
+  url "https://github.com/vim/vim/archive/refs/tags/v9.2.1286.tar.gz"
+  sha256 "fc5283b5cb3addcafa0e529756ff88d3f169bc6bf180a239f4031e0b3797e7cb"
   license "Vim"
   compatibility_version 1
   head "https://github.com/vim/vim.git", branch: "master"
@@ -24,8 +24,8 @@ class Vim < Formula
 
   # bottle block: written by brew pr-pull
   bottle do
-    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/vim-9.2.1276"
-    sha256 sequoia: "40a709a5a08a881ceebd22f1ac9343f92ddae29bb75d79c8f484a861c0c03548"
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/vim-9.2.1286"
+    sha256 sequoia: "2d8d4de5577fe1882aaee201f05fa24b4a235fd9e51e07c21075f01afc3a42e2"
   end
 
   depends_on "lua" => [:build, :test]
