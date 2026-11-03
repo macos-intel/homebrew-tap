@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/harfbuzz.patch.
 class Harfbuzz < Formula
   desc "OpenType text shaping engine"
@@ -11,6 +11,11 @@ class Harfbuzz < Formula
   head "https://github.com/harfbuzz/harfbuzz.git", branch: "main"
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/harfbuzz-15.0.0_1"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "4826501fa2b359dc0e1753a1c654b1ccdcb28bb57445027e3af19e93602e674e"
+  end
 
   depends_on "macos-intel/tap/gobject-introspection" => :build
   depends_on "macos-intel/tap/meson" => :build
