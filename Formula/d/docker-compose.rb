@@ -1,10 +1,10 @@
-# Generated from Homebrew/homebrew-core@9b494b0a09aef39f7448227aa83aa2c13fd8d52e by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@3a3c9f4fefc54c836b2a1b1e7991f85049aa4497 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/docker-compose.patch.
 class DockerCompose < Formula
   desc "Isolated development environments using Docker"
   homepage "https://docs.docker.com/compose/"
-  url "https://github.com/docker/compose/archive/refs/tags/v5.6.1.tar.gz"
-  sha256 "bd1318503f131bc7f02538f153a7ead52f27ea30a99aee09f153a5dab9e6230a"
+  url "https://github.com/docker/compose/archive/refs/tags/v5.7.0.tar.gz"
+  sha256 "98f5b7dd4a66d8a2d9289e918fa0f63e5ff9821623950e53e633571a78b30d63"
   license "Apache-2.0"
   head "https://github.com/docker/compose.git", branch: "main"
 
@@ -18,9 +18,8 @@ class DockerCompose < Formula
 
   # bottle block: written by brew pr-pull
   bottle do
-    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/docker-compose-5.6.1"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, sequoia: "c2857cf1ac2ef000cb4d93c1eb933eab3a5115fdb749d9efc8c201003e3d3c37"
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/docker-compose-5.7.0"
+    sha256 cellar: :any_skip_relocation, sequoia: "74a5d27a459e8bbf87e139232bb62272c37cea41e6c12f691ae655a9f9caffe2"
   end
 
   depends_on "macos-intel/tap/go" => :build
