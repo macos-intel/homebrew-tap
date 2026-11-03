@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@1798d9442ccd1a1e871b644365aaac3355c74764 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/pkl.patch.
 class Pkl < Formula
   desc "CLI for the Pkl programming language"
@@ -9,6 +9,11 @@ class Pkl < Formula
   compatibility_version 1
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/pkl-0.32.2"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, sequoia: "24a05e87b855e9ec971ead87ad150e7cee309ccfa1604cf84cf3045d50526730"
+  end
 
   depends_on "macos-intel/tap/gradle" => :build
   depends_on "macos-intel/tap/openjdk@21" => :build

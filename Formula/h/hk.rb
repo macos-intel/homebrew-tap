@@ -1,12 +1,12 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@1798d9442ccd1a1e871b644365aaac3355c74764 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/hk.patch.
 class Hk < Formula
   desc "Git hook and pre-commit lint manager"
   homepage "https://hk.jdx.dev"
   # pull from git tag to get submodules
   url "https://github.com/jdx/hk.git",
-      tag:      "v2.10.0",
-      revision: "fdf61b8e3409d72beef8726757ad4426a3ad8ef0"
+      tag:      "v2.11.0",
+      revision: "a0c22a90ac075f52c774cf8be8bf4e45d2b6a42a"
   license "MIT"
   head "https://github.com/jdx/hk.git", branch: "main"
 
@@ -16,6 +16,10 @@ class Hk < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/hk-2.11.0"
+    sha256 cellar: :any_skip_relocation, sequoia: "b3803a02222c110be740bc6bc7b86446ad02e815a801894498a48c705a53935e"
+  end
 
   depends_on "macos-intel/tap/pkl" => :build
   depends_on "macos-intel/tap/rust" => [:build, :test]

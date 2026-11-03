@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@1798d9442ccd1a1e871b644365aaac3355c74764 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/gradle.patch.
 class Gradle < Formula
   desc "Open-source build automation tool based on the Groovy and Kotlin DSL"
@@ -14,6 +14,11 @@ class Gradle < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/gradle-9.8.2"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, sequoia: "53c824b1fc0f51617f086a7b938e482b9fc12fdfa4b7989d01eeb73157e30967"
+  end
 
   depends_on "gradle-completion"
   depends_on "macos-intel/tap/openjdk"

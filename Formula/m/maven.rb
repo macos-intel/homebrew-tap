@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@1798d9442ccd1a1e871b644365aaac3355c74764 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/maven.patch.
 class Maven < Formula
   desc "Java-based project management"
@@ -15,6 +15,11 @@ class Maven < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/maven-3.10.0"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, sequoia: "e947421a46d23e90bd3693dddac157e34fa6054d0d1f2e98fbfd548ad32adfe6"
+  end
 
   depends_on "macos-intel/tap/openjdk"
 

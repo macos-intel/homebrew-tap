@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@1798d9442ccd1a1e871b644365aaac3355c74764 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/sonar-scanner.patch.
 class SonarScanner < Formula
   desc "Launcher to analyze a project with SonarQube"
@@ -9,6 +9,11 @@ class SonarScanner < Formula
   head "https://github.com/SonarSource/sonar-scanner-cli.git", branch: "master"
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/sonar-scanner-8.3.0.16463"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, sequoia: "6a9da7cc55c5740fbdbb0c704e25c4355f6bec232c46f64fdca9899e0fc8d3cf"
+  end
 
   depends_on "macos-intel/tap/openjdk"
 
