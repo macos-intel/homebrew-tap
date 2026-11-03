@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/rumdl.patch.
 class Rumdl < Formula
   desc "Markdown Linter and Formatter written in Rust"
@@ -13,6 +13,11 @@ class Rumdl < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/rumdl-0.3.2"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, sequoia: "75ea90279a2c9f737679c6e5035a8ce3bd036308ccb891c5e24cb2304c1ba6ce"
+  end
 
   depends_on "macos-intel/tap/rust" => :build
 
