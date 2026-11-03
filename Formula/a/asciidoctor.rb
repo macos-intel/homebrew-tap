@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@34b9bceef03fee96aaa8ead8efc5c058ffe37de9 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/asciidoctor.patch.
 class Asciidoctor < Formula
   desc "Text processor and publishing toolchain for AsciiDoc"
@@ -151,6 +151,8 @@ class Asciidoctor < Formula
     url "https://rubygems.org/gems/logger-1.7.0.gem"
     sha256 "196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203"
   end
+
+  deny_network_access!
 
   def install
     ENV["GEM_HOME"] = libexec
