@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/pygobject3.patch.
 class Pygobject3 < Formula
   desc "GNOME Python bindings (based on GObject Introspection)"
@@ -10,6 +10,11 @@ class Pygobject3 < Formula
   compatibility_version 1
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/pygobject3-3.58.1_1"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "a6b38aaec0f9f8a08a15bd561e13424f98f9eba223a7bbb6a35fb45cb039ec8e"
+  end
 
   depends_on "macos-intel/tap/meson" => :build
   depends_on "macos-intel/tap/ninja" => :build
