@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/libxext.patch.
 class Libxext < Formula
   desc "X.Org: Library for common extensions to the X11 protocol"
@@ -9,6 +9,11 @@ class Libxext < Formula
   compatibility_version 1
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/libxext-1.3.7"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "5c4ba620dc4ade7de285ea39adacef5cf7c48731dffa395b013c0e6b455dd70f"
+  end
 
   depends_on "macos-intel/tap/pkgconf" => :build
   depends_on "macos-intel/tap/libx11"
