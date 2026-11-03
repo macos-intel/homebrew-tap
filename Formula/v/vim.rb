@@ -1,37 +1,31 @@
-# Generated from Homebrew/homebrew-core@bee15277559640637059d39ec4a0ea534332440a by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/vim.patch.
 class Vim < Formula
   desc "Vi 'workalike' with many additional features"
   homepage "https://www.vim.org/"
-  # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/refs/tags/v9.2.1250.tar.gz"
-  sha256 "2862e02dca705c440e10579fa10c81ede0cb6a35ba5aa05a4b22c2ce8f4c78a4"
+  # vim should only be updated once a day
+  url "https://github.com/vim/vim/archive/refs/tags/v9.2.1276.tar.gz"
+  sha256 "86526fd2cc08ef853442341d1f134b94fc765807a96b29f50ad906aac8b8d98c"
   license "Vim"
   compatibility_version 1
   head "https://github.com/vim/vim.git", branch: "master"
 
   # The Vim repository contains thousands of tags and the `Git` strategy isn't
   # ideal in this context. This is an exceptional situation, so this checks the
-  # first 50 tags using the GitHub API (to minimize data transfer).
+  # first 10 tags using the GitHub tags feed (to minimize data transfer).
   livecheck do
-    url "https://api.github.com/repos/vim/vim/tags?per_page=50"
+    url "https://github.com/vim/vim/tags.atom"
     regex(/^v?(\d+(?:\.\d+)+)$/i)
-    strategy :json do |json, regex|
-      json.map do |tag|
-        match = tag["name"]&.match(regex)
-        next if match.blank?
-
-        match[1]
-      end
+    strategy :xml do |xml, regex|
+      xml.get_elements("//title").map { |item| item.text[regex, 1] }
     end
-    throttle 50
+    throttle days: 1
   end
 
   # bottle block: written by brew pr-pull
   bottle do
-    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/vim-9.2.1250"
-    rebuild 1
-    sha256 sequoia: "54ce1daf0dd41f79437a503f866f796b4caf11d715bcfcf65dedb6cf6200b671"
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/vim-9.2.1276"
+    sha256 sequoia: "40a709a5a08a881ceebd22f1ac9343f92ddae29bb75d79c8f484a861c0c03548"
   end
 
   depends_on "lua" => [:build, :test]
