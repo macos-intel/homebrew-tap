@@ -22,6 +22,11 @@ export HOMEBREW_NO_AUTOREMOVE=1
 export HOMEBREW_NO_INSTALL_CLEANUP=1
 export HOMEBREW_NO_INSTALL_UPGRADE=1
 export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+# brew downloads with its own curl once that keg is installed. Rebuilding one of
+# curl's libraries (libnghttp3, openssl@3) uninstalls it first, which leaves that
+# curl unable to load, so neither the build nor the restore can download
+# anything (run 41622482581). The system curl links no keg.
+export HOMEBREW_CURL_PATH=/usr/bin/curl
 
 # shellcheck disable=SC2034 # read by the scripts that source this file
 readonly NAME_PATTERN='^[a-z0-9][a-z0-9@._+-]*$'
