@@ -279,6 +279,13 @@ rebuilds `reports/` from a fresh API snapshot plus local git history, taps and
   `deps`, `bottle`, `test` and tap dependencies fail. `swap_taps_link`
   (`run.sh`, `pour.sh`) runs `brew trust --tap macos-intel/tap` first
   (run 41368707747 lost 35 formulae to this).
+- `run.sh` applies `scripts/builder/brew-patches/*.patch` to the builder's
+  brew checkout before bottling, and refuses to start when one no longer
+  applies. `java-placeholder.patch`: brew writes `@@HOMEBREW_JAVA@@` for any
+  openjdk path but resolves it on pour only for an untapped `openjdk`
+  dependency, so gradle, maven and sonar-scanner bottles poured with it left
+  in (run 41655053244); patched, `:prefix` relocates the path instead and
+  users pour with a stock brew. Drop a patch once brew fixes it upstream.
 - Keep the iMac awake while a build runs (`pmset sleep 0` on AC): host sleep
   pauses the VM and the runner loses its job (run 41189416364).
 

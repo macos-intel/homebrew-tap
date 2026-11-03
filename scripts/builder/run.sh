@@ -11,9 +11,9 @@ set -Eeuo pipefail
 # ~/Library/Caches/homebrew-intel-builder).
 # Test seams: TAP_DIR (the checkout whose scripts run; default this script's
 # repository), TAPS_LINK (the Taps symlink), BUILDER_CORE_URL (core remote).
-# Steps: stop a brew a killed job left running, reinstall a keg an interrupted
-# build left uninstalled, point the Taps symlink at the checkout (restored on
-# every exit), fetch the API, sync the core clone, render, plan, record the
+# Steps: stop a brew a killed job left running, patch brew (brew-patches/),
+# reinstall a keg an interrupted build left uninstalled, point the Taps symlink
+# at the checkout (restored on every exit), fetch the API, sync the core clone, render, plan, record the
 # changed formulae that need no bottle, build each planned formula in order
 # (skipping dependents of failures). A failed
 # formula is recorded, not fatal: the run fails only when it cannot run or the
@@ -53,6 +53,32 @@ invalid_plan=no
 
 log() {
   echo "run: $*" >&2
+}
+
+# brew writes @@HOMEBREW_JAVA@@ into a bottle for every openjdk keg path but
+# resolves it on pour only for an openjdk dependency named without a tap, so a
+# bottle depending on macos-intel/tap/openjdk poured with the placeholder left
+# in (gradle: "JAVA_HOME is set to an invalid directory: @@HOMEBREW_JAVA@@").
+# Each brew-patches/*.patch is applied once to brew's checkout before anything
+# is bottled; one that no longer applies stops the run rather than bottle
+# without it. Users pour these bottles with an unpatched brew.
+# Test seam: BREW_REPOSITORY (brew's checkout).
+patch_brew() {
+  local repository patch
+  repository="${BREW_REPOSITORY:-$(brew --repository)}"
+  for patch in "${script_dir}"/brew-patches/*.patch
+  do
+    if git -C "${repository}" apply --check --reverse "${patch}" 2>/dev/null
+    then
+      continue
+    fi
+    if ! git -C "${repository}" apply "${patch}"
+    then
+      log "refusing to start: ${patch##*/} does not apply to ${repository}"
+      exit 1
+    fi
+    log "patched brew with ${patch##*/}"
+  done
 }
 
 usage() {
@@ -273,6 +299,7 @@ main() {
   # A previous run's output must never be uploaded as this one's.
   rm -rf "${out_dir}"
   reap_stale_brew
+  patch_brew
   recover_pending_relink
   recover_pending_restore
   swap_taps_link

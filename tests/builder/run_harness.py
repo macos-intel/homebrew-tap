@@ -10,6 +10,7 @@ from pathlib import Path
 from tests.builder.fakes import FakeBin
 
 SCRIPT = Path(__file__).resolve().parents[2] / "scripts" / "builder" / "run.sh"
+BREW_PATCH = SCRIPT.parent / "brew-patches" / "java-placeholder.patch"
 STUBBED = (
     "scripts/audit/fetch-api.sh",
     "scripts/tap/plan.py",
@@ -99,6 +100,18 @@ def git(*args: str) -> str:
     return result.stdout.strip()
 
 
+def unpatched(patch: Path) -> dict[str, str]:
+    """The files a patch applies to, as only its context and removed lines."""
+    files: dict[str, list[str]] = {}
+    current: list[str] = []
+    for line in patch.read_text(encoding="utf-8").splitlines():
+        if line.startswith("--- a/"):
+            current = files.setdefault(line.removeprefix("--- a/"), [])
+        elif line.startswith((" ", "-")) and not line.startswith("---"):
+            current.append(line[1:])
+    return {relpath: "\n".join(lines) + "\n" for relpath, lines in files.items()}
+
+
 def make_repo(path: Path, files: dict[str, str]) -> str:
     for relpath, text in files.items():
         (path / relpath).parent.mkdir(parents=True, exist_ok=True)
@@ -126,6 +139,8 @@ class RunTest(unittest.TestCase):
         (self.root / "Taps").mkdir()
         self.link = self.root / "Taps" / "homebrew-tap"
         self.link.symlink_to(self.original)
+        self.brew_repository = self.root / "brew"
+        make_repo(self.brew_repository, unpatched(BREW_PATCH))
         self.configure(plan="")
 
     def write_stubs(self) -> None:
@@ -155,6 +170,7 @@ class RunTest(unittest.TestCase):
             "TAPS_LINK": str(self.link),
             "BUILDER_CACHE": str(self.root / "cache"),
             "BUILDER_CORE_URL": str(self.root / "core"),
+            "BREW_REPOSITORY": str(self.brew_repository),
         }
         for secret in ("GH_TOKEN", "GITHUB_TOKEN", "PRIVATE_GH_TOKEN"):
             env.pop(secret, None)
