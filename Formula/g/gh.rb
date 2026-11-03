@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@3045cd43ecd48db75bd7d8577cd73a85b3f65b1f by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/gh.patch.
 class Gh < Formula
   desc "GitHub command-line tool"
@@ -22,7 +22,7 @@ class Gh < Formula
 
   depends_on "macos-intel/tap/go" => :build
 
-  deny_network_access! [:postinstall, :test]
+  allow_network_access! :build
 
   def install
     gh_version = if build.stable?
