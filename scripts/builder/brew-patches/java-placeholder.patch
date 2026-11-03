@@ -1,0 +1,18 @@
+diff --git a/Library/Homebrew/keg_relocate.rb b/Library/Homebrew/keg_relocate.rb
+--- a/Library/Homebrew/keg_relocate.rb
++++ b/Library/Homebrew/keg_relocate.rb
+@@ -193,7 +193,13 @@ class Keg
+     relocation.add_replacement_pair(:perl,
+                                     %r{\A#![ \t]*(?:/usr/bin/perl\d\.\d+|#{HOMEBREW_PREFIX}/opt/perl/bin/perl)( |$)}o,
+                                     "#!#{PERL_PLACEHOLDER}\\1")
+-    relocation.add_replacement_pair(:java, JAVA_REGEX, JAVA_PLACEHOLDER)
++    # macos-intel/tap: write the Java placeholder only when the pour side can
++    # resolve it. openjdk_dep_name_if_applicable matches full names, so a tap
++    # openjdk (macos-intel/tap/openjdk) never resolves and the placeholder
++    # would stay in the poured keg; :prefix relocates that path instead.
++    if openjdk_dep_name_if_applicable
++      relocation.add_replacement_pair(:java, JAVA_REGEX, JAVA_PLACEHOLDER)
++    end
+ 
+     relocation
+   end

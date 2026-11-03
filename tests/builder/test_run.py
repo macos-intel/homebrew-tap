@@ -4,7 +4,7 @@ import subprocess
 import time
 import unittest
 
-from tests.builder.run_harness import SCRIPT, RunTest, git, make_repo
+from tests.builder.run_harness import BREW_PATCH, SCRIPT, RunTest, git, make_repo
 
 
 class SymlinkTest(RunTest):
@@ -263,6 +263,41 @@ class TapTrustTest(RunTest):
         self.fake.fail(*TRUST_TAP)
         result = self.run_script()
         self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(self.built(), [])
+        self.assert_link_restored()
+
+
+class BrewPatchTest(RunTest):
+    """brew-patches/ is applied to brew's checkout before anything is bottled."""
+
+    PATCHED = "if openjdk_dep_name_if_applicable"
+
+    @property
+    def keg_relocate(self) -> str:
+        return (self.brew_repository / "Library/Homebrew/keg_relocate.rb").read_text(encoding="utf-8")
+
+    def test_patches_brew_before_building(self):
+        self.configure(plan="lz4 1.10.0\n")
+        result = self.run_script()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn(self.PATCHED, self.keg_relocate)
+        self.assertIn(f"patched brew with {BREW_PATCH.name}", result.stderr)
+        self.assertEqual(self.built(), ["lz4"])
+
+    def test_leaves_a_patched_brew_alone(self):
+        self.configure(plan="lz4 1.10.0\n")
+        self.assertEqual(self.run_script().returncode, 0)
+        result = self.run_script()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotIn("patched brew", result.stderr)
+        self.assertEqual(self.keg_relocate.count(self.PATCHED), 1)
+
+    def test_brew_the_patch_no_longer_fits_stops_the_run(self):
+        self.configure(plan="lz4 1.10.0\n")
+        (self.brew_repository / "Library/Homebrew/keg_relocate.rb").write_text("class Keg\nend\n", encoding="utf-8")
+        result = self.run_script()
+        self.assertEqual(result.returncode, 1)
+        self.assertIn(f"{BREW_PATCH.name} does not apply", result.stderr)
         self.assertEqual(self.built(), [])
         self.assert_link_restored()
 
