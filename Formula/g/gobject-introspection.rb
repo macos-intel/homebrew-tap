@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/gobject-introspection.patch.
 class GobjectIntrospection < Formula
   include Language::Python::Shebang
@@ -13,6 +13,11 @@ class GobjectIntrospection < Formula
   compatibility_version 1
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/gobject-introspection-1.86.0_6"
+    rebuild 1
+    sha256 sequoia: "bd1bdf858a6c915144a2c933bc2e8e012c68ecb41d66abd44e80b5e7c1e2738f"
+  end
 
   depends_on "bison" => :build
   depends_on "macos-intel/tap/meson" => :build
