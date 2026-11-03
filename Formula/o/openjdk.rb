@@ -14,6 +14,11 @@ class Openjdk < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/openjdk-27.0.1.0.3"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "53115eaea4460c75bdf12b0ec7181a8dc68e32c13ef513734ba92062a081ca91"
+  end
 
   keg_only :shadowed_by_macos
 
