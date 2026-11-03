@@ -1,0 +1,112 @@
+# Generated from Homebrew/homebrew-core@bba540a9c0c813d88a2a0d71750a4ee74b58bc10 by scripts/tap/render.py; do not edit.
+# Hand-written changes belong in patches/rustup.patch.
+class Rustup < Formula
+  desc "Rust toolchain installer"
+  homepage "https://rust-lang.github.io/rustup/"
+  license any_of: ["Apache-2.0", "MIT"]
+  compatibility_version 1
+  head "https://github.com/rust-lang/rustup.git", branch: "main"
+
+  stable do
+    # TODO: Remove curl when release has following:
+    # https://github.com/rust-lang/rustup/commit/747057342d4616d6cd2cda6b00826c0ebdd0e671
+    url "https://github.com/rust-lang/rustup/archive/refs/tags/1.29.2.tar.gz"
+    sha256 "ba43980f0651730631174635a0e7764831e810be08a06ae53f9c0620caef019d"
+    uses_from_macos "curl"
+  end
+
+  # bottle block: written by brew pr-pull
+
+  keg_only "it conflicts with rust"
+
+  depends_on "macos-intel/tap/pkgconf" => :build
+  depends_on "macos-intel/tap/rust" => :build
+  depends_on "macos-intel/tap/xz"
+
+  on_linux do
+    depends_on "macos-intel/tap/openssl@4"
+  end
+
+  # Test downloads a Rust toolchain
+  allow_network_access! :test
+
+  def fetch
+    system "cargo", "fetch", *std_cargo_fetch_args
+  end
+
+  def install
+    system "cargo", "install", *std_cargo_args(features: "no-self-update")
+
+    # Upstream installs this binary as `rustup-init`, but Homebrew packages
+    # `rustup` directly and should not provide a separate installer entrypoint.
+    mv bin/"rustup-init", bin/"rustup"
+
+    %w[cargo cargo-clippy cargo-fmt cargo-miri clippy-driver rls rust-analyzer
+       rust-gdb rust-gdbgui rust-lldb rustc rustdoc rustfmt].each do |name|
+      bin.install_symlink bin/"rustup" => name
+    end
+
+    (buildpath/"settings.toml").write <<~TOML
+      default_toolchain = "stable"
+    TOML
+    pkgetc.install "settings.toml"
+    bin.env_script_all_files libexec/"bin", RUSTUP_OVERRIDE_UNIX_FALLBACK_SETTINGS: pkgetc/"settings.toml"
+
+    generate_completions_from_executable(libexec/"bin/rustup", "completions", shells: [:bash, :zsh, :fish, :pwsh])
+    [:bash, :zsh].each do |shell|
+      generate_completions_from_executable(
+        libexec/"bin/rustup", "completions", shell.to_s, "cargo",
+        shells: [shell], base_name: "cargo", shell_parameter_format: :none
+      )
+    end
+  end
+
+  post_install_steps do
+    symlink "{{bin}}/rustup", "{{HOMEBREW_PREFIX}}/bin/rustup", overwrite: true
+    symlink "{{bash_completion}}/rustup", "{{HOMEBREW_PREFIX}}/etc/bash_completion.d/rustup", overwrite: true
+    symlink "{{zsh_completion}}/_rustup", "{{HOMEBREW_PREFIX}}/share/zsh/site-functions/_rustup", overwrite: true
+    symlink "{{fish_completion}}/rustup.fish", "{{HOMEBREW_PREFIX}}/share/fish/vendor_completions.d/rustup.fish",
+            overwrite: true
+    symlink "{{pwsh_completion}}/_rustup.ps1", "{{HOMEBREW_PREFIX}}/share/pwsh/completions/_rustup.ps1",
+            overwrite: true
+    remove "{{HOMEBREW_PREFIX}}/bin/rustup-init", symlink_target_contains: "Cellar/rustup/"
+    remove "{{HOMEBREW_PREFIX}}/bin/rustup-init", symlink_target_contains: "opt/rustup/"
+  end
+
+  def caveats
+    <<~EOS
+      To use rustup, ensure you have "$(brew --prefix rustup)/bin" in your $PATH:
+        https://rust-lang.github.io/rustup/installation/already-installed-rust.html
+
+      This formula no longer provides `rustup-init`.
+    EOS
+  end
+
+  test do
+    ENV["CARGO_HOME"] = testpath/".cargo"
+    ENV["RUSTUP_HOME"] = testpath/".rustup"
+    ENV.prepend_path "PATH", bin
+
+    assert_match "stable", shell_output("#{bin}/rustup default")
+    assert_match "stable", shell_output("#{bin}/rustc --version 2>&1")
+
+    system bin/"cargo", "new", "--bin", "./app"
+    cd "app" do
+      system bin/"cargo", "fmt"
+      system bin/"rustc", "src/main.rs"
+      assert_equal "Hello, world!", shell_output("./main").chomp
+      assert_empty shell_output("#{bin}/cargo clippy")
+    end
+
+    # Check that Homebrew only exposes the packaged `rustup` entrypoint.
+    refute_path_exists bin/"rustup-init"
+
+    # Check for stale symlinks
+    testpath.install_symlink libexec/"bin/rustup" => "rustup-init"
+    system testpath/"rustup-init", "-y"
+    bins = bin.glob("*").to_set(&:basename)
+    expected = testpath.glob(".cargo/bin/*").to_set(&:basename)
+    assert (extra = bins - expected).empty?, "Symlinks need to be removed: #{extra.join(",")}"
+    assert (missing = expected - bins).empty?, "Symlinks need to be added: #{missing.join(",")}"
+  end
+end

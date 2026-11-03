@@ -163,3 +163,54 @@ kind = "generated"
 
 [formula.hk]
 kind = "generated"
+
+[formula.argo]
+kind = "generated"
+
+[formula.argocd]
+kind = "generated"
+
+[formula.aws-vault]
+kind = "generated"
+
+[formula.chart-releaser]
+kind = "generated"
+
+[formula.git-cliff]
+kind = "generated"
+
+[formula.jfrog-cli]
+kind = "generated"
+
+[formula.opentofu]
+kind = "generated"
+
+[formula.fastfetch]
+kind = "generated"
+
+[formula.gittype]
+kind = "generated"
+
+[formula.sem-cli]
+kind = "generated"
+
+[formula.tailscale]
+kind = "generated"
+
+[formula.cargo-clone]
+kind = "generated"
+
+[formula.cargo-expand]
+kind = "generated"
+
+[formula.cargo-generate]
+kind = "generated"
+
+[formula.cargo-hack]
+kind = "generated"
+
+[formula.cargo-shear]
+kind = "generated"
+
+[formula.cargo-update]
+kind = "generated"
