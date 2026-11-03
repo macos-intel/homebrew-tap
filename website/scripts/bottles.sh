@@ -3,9 +3,11 @@
 set -Eeuo pipefail
 
 # Writes static/bottles.json from the tap's GitHub releases, which the home
-# page renders as the bottle list. Release tags are <formula>-<version>; a
-# version never contains "-", so the last "-" splits them. Only the newest
-# release per formula is kept.
+# page renders as the bottle list. Release tags are <formula>-<version>, and
+# both halves may contain "-" (luv-1.53.0-1), so the formula is the longest
+# tap formula name the tag starts with; releases of formulae no longer in the
+# tap are left out. Only the newest release per formula is kept.
+# Test seam: BOTTLES_OUTPUT (the file written).
 #
 # Each entry also carries what the page needs to migrate kegs and Brewfiles
 # without asking brew: `deps`, the formula's tap runtime dependencies (so the
@@ -15,7 +17,7 @@ set -Eeuo pipefail
 repository="${GITHUB_REPOSITORY:-macos-intel/homebrew-tap}"
 script_dir="$(dirname "$0")"
 tap_root="${script_dir}/../.."
-output="${script_dir}/../static/bottles.json"
+output="${BOTTLES_OUTPUT:-${script_dir}/../static/bottles.json}"
 
 # Prints "<formula>\t<dep>" for every tap runtime dependency on Intel
 # Sequoia; runtime-deps.awk says which lines count. Kept in its own file
@@ -36,6 +38,16 @@ aliases() {
   done
 }
 
+# Prints every tap formula name as a JSON array.
+formula_names() {
+  local formula
+  for formula in "${tap_root}"/Formula/*/*.rb
+  do
+    formula="${formula##*/}"
+    printf '%s\n' "${formula%.rb}"
+  done | jq -R . | jq -s .
+}
+
 # Turns "<formula>\t<value>" lines into {"<formula>": ["<value>", ...]}.
 to_map() {
   jq -R -s '
@@ -49,15 +61,20 @@ to_map() {
 
 deps_json="$(runtime_deps | to_map)"
 aliases_json="$(aliases | to_map)"
+names_json="$(formula_names)"
 
 mkdir -p "${script_dir}/../static"
 gh api --paginate "repos/${repository}/releases?per_page=100" |
-  jq -s --argjson deps "${deps_json}" --argjson aliases "${aliases_json}" '
+  jq -s --argjson deps "${deps_json}" --argjson aliases "${aliases_json}" \
+    --argjson names "${names_json}" '
     add
     | map(select(.draft | not))
     | map(.tag_name as $tag
-        | ($tag | capture("^(?<name>.+)-(?<version>[^-]+)$"))
-        + {url: .html_url, published: .published_at})
+        | ([$names[] | select(. as $name | $tag | startswith($name + "-"))]
+          | max_by(length)) as $name
+        | select($name != null)
+        | {name: $name, version: ($tag | ltrimstr($name + "-")),
+          url: .html_url, published: .published_at})
     | group_by(.name)
     | map(max_by(.published) | del(.published)
         | . + {deps: ($deps[.name] // []), aliases: ($aliases[.name] // [])})
