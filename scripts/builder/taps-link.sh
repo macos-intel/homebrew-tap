@@ -81,4 +81,18 @@ swap_taps_link() {
   trap 'exit 143' TERM
   log "pointing ${taps_link} at ${TAP_DIR} (was ${link_target})"
   ln -sfn "${TAP_DIR}" "${taps_link}"
+  trust_tap
+}
+
+# brew refuses to load a formula from an untrusted tap. It implicitly trusts one
+# only when install, reinstall or upgrade names it, so the builder's `brew info`,
+# `deps`, `bottle` and `test` calls, and every tap dependency, need the whole tap
+# trusted. Per-formula trust is no narrower here: this host exists to run the
+# tap's code, and finding a plan's tap dependencies already takes `brew deps`.
+trust_tap() {
+  if ! brew trust --tap macos-intel/tap
+  then
+    log "refusing to start: brew could not trust macos-intel/tap"
+    exit 1
+  fi
 }

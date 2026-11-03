@@ -98,6 +98,12 @@ class PourTest(RunTest):
         self.assertEqual(self.fake.argvs()[0], ["brew", "link", "--force", "lazygit"])
         self.assertFalse(marker.exists())
 
+    def test_trusts_the_tap_before_pouring(self):
+        self.assertEqual(self.pour().returncode, 0)
+        trust = ["brew", "trust", "--tap", "macos-intel/tap"]
+        self.assertIn(trust, self.fake.argvs())
+        self.assertTrue(self.poured())
+
     def test_requires_a_manifest(self):
         (self.artifact / "manifest.json").unlink()
         self.assertEqual(self.pour().returncode, 2)
