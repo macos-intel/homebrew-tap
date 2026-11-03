@@ -1,7 +1,9 @@
 [
   "abseil",
+  "aom",
   "coreutils",
   "highway",
   "redis",
+  "x265",
   "xxhash"
 ]

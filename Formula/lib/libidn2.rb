@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@5fba4fefd4e2b91052fa37a31050cc1191de3a92 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@bba540a9c0c813d88a2a0d71750a4ee74b58bc10 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/libidn2.patch.
 class Libidn2 < Formula
   desc "International domain name library (IDNA2008, Punycode and TR46)"
@@ -33,10 +33,10 @@ class Libidn2 < Formula
 
     depends_on "autoconf" => :build
     depends_on "gengetopt" => :build
-    depends_on "help2man" => :build
     depends_on "libtool" => :build
     depends_on "macos-intel/tap/automake" => :build
     depends_on "macos-intel/tap/gettext" => :build
+    depends_on "macos-intel/tap/help2man" => :build
 
     uses_from_macos "gperf" => :build
 
