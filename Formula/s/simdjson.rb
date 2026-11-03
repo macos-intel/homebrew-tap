@@ -1,18 +1,18 @@
-# Generated from Homebrew/homebrew-core@c48d966391c9a986cd8c7ba7f0c59e62a40d91d4 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/simdjson.patch.
 class Simdjson < Formula
   desc "SIMD-accelerated C++ JSON parser"
   homepage "https://simdjson.org"
-  url "https://github.com/simdjson/simdjson/archive/refs/tags/v5.0.7.tar.gz"
-  sha256 "a5282c9b00f6c8b5217f434636c78ee7c9019f2fd2aa478ba850d2e2584c0994"
+  url "https://github.com/simdjson/simdjson/archive/refs/tags/v5.1.1.tar.gz"
+  sha256 "d669fa399613c20bbf7705f057a72984331b223cd5e8d20666ef063dbf97f3e6"
   license "Apache-2.0"
-  compatibility_version 1
+  compatibility_version 2
   head "https://github.com/simdjson/simdjson.git", branch: "master"
 
   # bottle block: written by brew pr-pull
   bottle do
-    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/simdjson-5.0.7"
-    sha256 cellar: :any, sequoia: "2703c390a28cf2f48b98e740e12a9ed981afbb174b03760944fce5a63cc2adf1"
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/simdjson-5.1.1"
+    sha256 cellar: :any, sequoia: "ea288d2ba381e863d035c15cf0067b132c417834d7af1abe8c39ef1a49d144ca"
   end
 
   depends_on "macos-intel/tap/cmake" => :build
