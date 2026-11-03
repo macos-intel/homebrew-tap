@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/util-macros.patch.
 class UtilMacros < Formula
   desc "X.Org: Set of autoconf macros used to build other xorg packages"
@@ -9,8 +9,15 @@ class UtilMacros < Formula
   compatibility_version 1
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/util-macros-1.20.2"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, sequoia: "b1515b2fde9d081d7d11dde30d8867b6838b3670e425b4ea0ae6b048c00670ac"
+  end
 
   depends_on "macos-intel/tap/pkgconf" => :test
+
+  deny_network_access!
 
   def install
     args = %W[

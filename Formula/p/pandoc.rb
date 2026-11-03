@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/pandoc.patch.
 class Pandoc < Formula
   desc "Swiss-army knife of markup format conversion"
@@ -10,6 +10,11 @@ class Pandoc < Formula
   head "https://github.com/jgm/pandoc.git", branch: "main"
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/pandoc-3.13"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "acd9664e996cd9a6b96c03ed67c11d11fd242aebf1319018fd59f912e5ab7171"
+  end
 
   depends_on "macos-intel/tap/cabal-install" => :build
   depends_on "macos-intel/tap/ghc" => :build

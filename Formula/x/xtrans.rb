@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/xtrans.patch.
 class Xtrans < Formula
   desc "X.Org: X Network Transport layer shared code"
@@ -9,10 +9,17 @@ class Xtrans < Formula
   compatibility_version 1
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/xtrans-1.6.0"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, sequoia: "3e9ab2d84e226cd5a4ee9ed28fc063b0d1c4fd473466d509d89e5fec8d0dd7b8"
+  end
 
   depends_on "macos-intel/tap/pkgconf" => :build
   depends_on "macos-intel/tap/util-macros" => :build
   depends_on "macos-intel/tap/xorgproto" => :test
+
+  deny_network_access!
 
   def install
     args = %W[

@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@34b9bceef03fee96aaa8ead8efc5c058ffe37de9 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/unibilium.patch.
 class Unibilium < Formula
   desc "Very basic terminfo library"
@@ -18,6 +18,8 @@ class Unibilium < Formula
   depends_on "autoconf" => :build
   depends_on "libtool" => :build
   depends_on "macos-intel/tap/automake" => :build
+
+  deny_network_access!
 
   def install
     system "autoreconf", "--force", "--install", "--verbose"

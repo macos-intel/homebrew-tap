@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/cabal-install.patch.
 class CabalInstall < Formula
   desc "Command-line interface for Cabal and Hackage"
@@ -10,6 +10,11 @@ class CabalInstall < Formula
   head "https://github.com/haskell/cabal.git", branch: "master"
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/cabal-install-3.18.2.0"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "6ae064517544b863bca05e1089fd35ff0a9425fd518fb2ec8c09f82f0d7cfa68"
+  end
 
   depends_on "macos-intel/tap/ghc" => [:build, :test]
   depends_on "macos-intel/tap/gmp"

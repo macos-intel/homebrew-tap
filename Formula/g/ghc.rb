@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/ghc.patch.
 class Ghc < Formula
   desc "Glorious Glasgow Haskell Compilation System"
@@ -18,6 +18,11 @@ class Ghc < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/ghc-9.14.1"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "340738cc7187131d0b6cc6c56fb2e71d8e08a20893e77505b2e446fbc26ba639"
+  end
 
   depends_on "autoconf" => :build
   depends_on "macos-intel/tap/automake" => :build

@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/freetype.patch.
 class Freetype < Formula
   desc "Software library to render fonts"
@@ -15,6 +15,11 @@ class Freetype < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/freetype-2.15.0"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "d2543dd13973017d48b0831b3b3455345c31da245450a64cb96d923f69a726cd"
+  end
 
   depends_on "macos-intel/tap/pkgconf" => :build
   depends_on "macos-intel/tap/brotli"

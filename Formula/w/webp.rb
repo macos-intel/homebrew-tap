@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/webp.patch.
 class Webp < Formula
   desc "Image format providing lossless and lossy compression for web images"
@@ -15,6 +15,11 @@ class Webp < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/webp-1.6.0"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "eb44cb80a16a93a761defbc3db3b0110d72fb4ffefa81d922283c9073a243b7b"
+  end
 
   depends_on "macos-intel/tap/cmake" => :build
   depends_on "macos-intel/tap/giflib"

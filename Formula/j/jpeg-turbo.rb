@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/jpeg-turbo.patch.
 class JpegTurbo < Formula
   desc "JPEG image codec that aids compression and decompression"
@@ -19,6 +19,11 @@ class JpegTurbo < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/jpeg-turbo-3.2.1"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "4e9c1fefa69831531fe4eea6c74afdf1c8ac5b4ad918ae8861a4a9a52010a37f"
+  end
 
   depends_on "macos-intel/tap/cmake" => :build
 

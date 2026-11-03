@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/libx11.patch.
 class Libx11 < Formula
   desc "X.Org: Core X11 protocol client library"
@@ -9,6 +9,11 @@ class Libx11 < Formula
   compatibility_version 1
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/libx11-1.8.14"
+    rebuild 1
+    sha256 sequoia: "2e9280450eaae5ec8998ed7fdd42f725089774c63d3ea90373d2bdfd30b2c430"
+  end
 
   depends_on "macos-intel/tap/pkgconf" => :build
   depends_on "macos-intel/tap/util-macros" => :build

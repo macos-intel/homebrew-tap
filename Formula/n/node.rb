@@ -1,10 +1,10 @@
-# Generated from Homebrew/homebrew-core@34b9bceef03fee96aaa8ead8efc5c058ffe37de9 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/node.patch.
 class Node < Formula
   desc "Open-source, cross-platform JavaScript runtime environment"
   homepage "https://nodejs.org/"
   license "MIT"
-  revision 1
+  revision 2
   compatibility_version 1
   head "https://github.com/nodejs/node.git", branch: "main"
 
@@ -27,8 +27,8 @@ class Node < Formula
 
   # bottle block: written by brew pr-pull
   bottle do
-    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/node-26.13.0_1"
-    sha256 sequoia: "94ba960f6beb395b29a2fb50b33a8e0b81fa0b76e48c15ef59acb6286f2d3908"
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/node-26.13.0_2"
+    sha256 sequoia: "8a803e80f8581761581d1619497a4eadc6602906f509eb7e218d1845bbf9ab30"
   end
 
   depends_on "macos-intel/tap/pkgconf" => :build

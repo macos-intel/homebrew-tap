@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/graphite2.patch.
 class Graphite2 < Formula
   desc "Smart font renderer for non-Roman scripts"
@@ -10,6 +10,11 @@ class Graphite2 < Formula
   head "https://github.com/silnrsi/graphite.git", branch: "master"
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/graphite2-1.3.15"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "ceb2932fce9adbc0a80e11d00409b0dbc7192c42edfa49f1a5e9361bd813b4ea"
+  end
 
   depends_on "macos-intel/tap/cmake" => :build
 

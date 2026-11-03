@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@bee15277559640637059d39ec4a0ea534332440a by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/nettle.patch.
 class Nettle < Formula
   desc "Low-level cryptographic library"
@@ -19,6 +19,8 @@ class Nettle < Formula
   depends_on "macos-intel/tap/gmp"
 
   uses_from_macos "m4" => :build
+
+  deny_network_access!
 
   def install
     system "./configure", *std_configure_args, "--enable-shared"

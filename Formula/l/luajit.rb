@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@bee15277559640637059d39ec4a0ea534332440a by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/luajit.patch.
 # NOTE: We have a policy of building only from tagged commits, but make a
 #       singular exception for luajit. This exception will not be extended
@@ -12,14 +12,14 @@ class Luajit < Formula
   # Get the latest commit with:
   #   `git ls-remote --heads https://github.com/LuaJIT/LuaJIT.git v2.1`
   # This is a rolling release model so take care not to ignore CI failures that may be regressions.
-  url "https://github.com/LuaJIT/LuaJIT/archive/a4c064539ea931274d407e1249b4bb575424a0f4.tar.gz"
+  url "https://github.com/LuaJIT/LuaJIT/archive/ea9eb7edb5eac4a9d175d74523db34fac0fa5180.tar.gz"
   # Use the version scheme `2.1.timestamp` where `timestamp` is the Unix timestamp of the
   # latest commit at the time of updating.
   # `brew livecheck luajit` will generate the correct version for you automatically.
-  version "2.1.1792588164"
-  sha256 "15625df3ebfbd1f76371005bffae39b84c65e718e57acc9a9c57863c7c101541"
+  version "2.1.1793383622"
+  sha256 "338a5640be00b89fd0a2a027a7433fcbbb4d006be840d216d84151386b5bcdf7"
   license "MIT"
-  compatibility_version 35
+  compatibility_version 36
   head "https://github.com/LuaJIT/LuaJIT.git", branch: "v2.1"
 
   livecheck do
@@ -32,9 +32,8 @@ class Luajit < Formula
 
   # bottle block: written by brew pr-pull
   bottle do
-    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/luajit-2.1.1792588164"
-    rebuild 1
-    sha256 cellar: :any, sequoia: "a528b3a46e0674076bae86eada7594348c577c9750cb36a4f531b546f3bd2aea"
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/luajit-2.1.1793383622"
+    sha256 cellar: :any, sequoia: "6b86475be30b71f75a830b6255d5f9fdab24db023dd5931de0b348f1eab492ac"
   end
 
   deny_network_access!
