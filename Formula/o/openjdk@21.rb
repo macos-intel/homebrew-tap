@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@5fba4fefd4e2b91052fa37a31050cc1191de3a92 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/openjdk@21.patch.
 class OpenjdkAT21 < Formula
   desc "Development kit for the Java programming language"
@@ -14,6 +14,11 @@ class OpenjdkAT21 < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/openjdk@21-21.0.13.0.3"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "8b5ae505706049c722d59e29417f0d331458cbf83071a8114e3ddf5be9da269c"
+  end
 
   keg_only :versioned_formula
 
