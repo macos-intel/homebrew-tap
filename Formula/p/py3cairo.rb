@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/py3cairo.patch.
 class Py3cairo < Formula
   desc "Python 3 bindings for the Cairo graphics library"
@@ -10,6 +10,11 @@ class Py3cairo < Formula
   compatibility_version 1
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/py3cairo-1.29.2_1"
+    rebuild 1
+    sha256 cellar: :any, sequoia: "736d4d7a294731b53d0cdbef99e4b5424d61093e508e3cf68a8751d68a65819e"
+  end
 
   depends_on "macos-intel/tap/meson" => :build
   depends_on "macos-intel/tap/ninja" => :build
