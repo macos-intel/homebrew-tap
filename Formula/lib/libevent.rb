@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@e8ef0108242be8280a06fd3349f2d00563388f70 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@5fba4fefd4e2b91052fa37a31050cc1191de3a92 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/libevent.patch.
 class Libevent < Formula
   desc "Asynchronous event library"
@@ -23,6 +23,8 @@ class Libevent < Formula
 
   depends_on "macos-intel/tap/pkgconf" => :build
   depends_on "macos-intel/tap/openssl@4"
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-debug-mode", *std_configure_args

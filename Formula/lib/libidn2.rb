@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f2fa4540ee4fc41c70a3c94df121528a11c17cb6 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@5fba4fefd4e2b91052fa37a31050cc1191de3a92 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/libidn2.patch.
 class Libidn2 < Formula
   desc "International domain name library (IDNA2008, Punycode and TR46)"
@@ -55,6 +55,8 @@ class Libidn2 < Formula
   on_macos do
     depends_on "macos-intel/tap/gettext"
   end
+
+  deny_network_access!
 
   def install
     args = ["--disable-silent-rules", "--with-packager=Homebrew"]

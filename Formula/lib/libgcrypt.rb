@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@bee15277559640637059d39ec4a0ea534332440a by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@5fba4fefd4e2b91052fa37a31050cc1191de3a92 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/libgcrypt.patch.
 class Libgcrypt < Formula
   desc "Cryptographic library based on the code from GnuPG"
@@ -21,6 +21,8 @@ class Libgcrypt < Formula
   end
 
   depends_on "macos-intel/tap/libgpg-error"
+
+  deny_network_access!
 
   def install
     system "./configure", "--disable-asm",

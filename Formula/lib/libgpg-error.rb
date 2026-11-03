@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@bee15277559640637059d39ec4a0ea534332440a by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@5fba4fefd4e2b91052fa37a31050cc1191de3a92 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/libgpg-error.patch.
 class LibgpgError < Formula
   desc "Common error values for all GnuPG components"
@@ -23,6 +23,8 @@ class LibgpgError < Formula
   on_macos do
     depends_on "macos-intel/tap/gettext"
   end
+
+  deny_network_access!
 
   def install
     # NOTE: gpg-error-config is deprecated upstream, so we should remove this at some point.
