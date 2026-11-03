@@ -1,15 +1,19 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/usage.patch.
 class Usage < Formula
   desc "Tool for working with usage-spec CLIs"
   homepage "https://usage.jdx.dev/"
-  url "https://github.com/jdx/usage/archive/refs/tags/v7.1.4.tar.gz"
-  sha256 "9b5199b3f4631a06cb893c9b0dd50b8d15265512e935499faf4a182c0d528a64"
+  url "https://github.com/jdx/usage/archive/refs/tags/v7.1.5.tar.gz"
+  sha256 "2209c229d19d5429afa5fb0dc5ef73f12d31981620adaa32942320c17bd7b40f"
   license "MIT"
   compatibility_version 1
   head "https://github.com/jdx/usage.git", branch: "main"
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/usage-7.1.5"
+    sha256 cellar: :any_skip_relocation, sequoia: "55dc0fa2c6b3c97339169304acca4be7941eb087be384d3892d2a6ac5a558f7d"
+  end
 
   depends_on "macos-intel/tap/rust" => :build
 
