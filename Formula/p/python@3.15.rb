@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@8701235251a995187352bd621a2f182a1127fa8c by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/python@3.15.patch.
 class PythonAT315 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
@@ -150,7 +150,8 @@ class PythonAT315 < Formula
       args << "--enable-framework=#{frameworks}"
       args << "--with-dtrace"
       args << "--with-dbmliborder=ndbm"
-      args << "--with-tail-call-interp"
+      # Tail calling needs LLVM 19, which Apple Clang is based on since 17.
+      args << "--with-tail-call-interp" if DevelopmentTools.clang_build_version >= 1700
 
       # Avoid linking to libgcc https://mail.python.org/pipermail/python-dev/2012-February/116205.html
       args << "MACOSX_DEPLOYMENT_TARGET=#{MacOS.version}"
