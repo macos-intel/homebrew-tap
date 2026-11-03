@@ -1,4 +1,4 @@
-# Generated from Homebrew/homebrew-core@f4781b7a0139d0850095188418ffb12682475cb8 by scripts/tap/render.py; do not edit.
+# Generated from Homebrew/homebrew-core@d9f0da31916a087dbdd6471646d7a17f0fa3c155 by scripts/tap/render.py; do not edit.
 # Hand-written changes belong in patches/fontconfig.patch.
 class Fontconfig < Formula
   desc "XML-based font configuration API for X Windows"
@@ -21,6 +21,11 @@ class Fontconfig < Formula
   end
 
   # bottle block: written by brew pr-pull
+  bottle do
+    root_url "https://github.com/macos-intel/homebrew-tap/releases/download/fontconfig-2.18.3"
+    rebuild 1
+    sha256 sequoia: "72157310f752fb3d782b843db054b493b64397e1b2b16f78e0eed7082315c4b4"
+  end
 
   depends_on "macos-intel/tap/gettext" => :build
   depends_on "macos-intel/tap/meson" => :build
