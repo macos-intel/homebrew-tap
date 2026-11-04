@@ -99,12 +99,17 @@ write_bottle() {
 
 # Merges the bottle block into the formula.
 merge_bottle() {
-  local formula_file
-  brew bottle --merge --write --no-commit "${bottle_json}"
+  local formula_file before
   # brew places the block by its own rules (after license when it cannot
-  # parse a livecheck block, as for readline); verify wants it at the marker.
+  # parse a livecheck block, as for readline; inside `stable do` after a
+  # comment, as for rustup); verify wants it at the marker and the rest of the
+  # render untouched. The copy taken first is what the block is placed into.
   formula_file="$(brew formula "${TAP}/${name}")"
-  python3 "${script_dir}/../tap/bottles.py" place "${formula_file}"
+  before="$(mktemp)"
+  cp "${formula_file}" "${before}"
+  brew bottle --merge --write --no-commit "${bottle_json}"
+  python3 "${script_dir}/../tap/bottles.py" place "${formula_file}" --before "${before}"
+  rm -f "${before}"
 }
 
 main() {

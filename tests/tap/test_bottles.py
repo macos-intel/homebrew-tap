@@ -89,3 +89,15 @@ class PlaceTest(unittest.TestCase):
             path.write_text(text, encoding="utf-8")
             self.assertEqual(bottles.main(["place", str(path)]), 0)
             self.assertIn(f"{marker}\n{LZ4_BLOCK}", path.read_text(encoding="utf-8"))
+
+    def test_cli_place_rebuilds_from_the_formula_before_brew_wrote(self):
+        marker = "  # bottle block: written by brew pr-pull"
+        stable = '  stable do\n    # note\n    url "u"\n  end\n'
+        before = f"class A < Formula\n{stable}\n{marker}\n\n  def install\n  end\nend\n"
+        after = before.replace("    # note\n", f"    # note\n\n{LZ4_BLOCK}\n")
+        with tempfile.TemporaryDirectory() as tmp:
+            path, original = Path(tmp) / "a.rb", Path(tmp) / "a.rb.before"
+            path.write_text(after, encoding="utf-8")
+            original.write_text(before, encoding="utf-8")
+            self.assertEqual(bottles.main(["place", str(path), "--before", str(original)]), 0)
+            self.assertEqual(path.read_text(encoding="utf-8"), before.replace(f"{marker}\n", f"{marker}\n{LZ4_BLOCK}"))

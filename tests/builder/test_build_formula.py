@@ -102,8 +102,8 @@ class BuildFormulaTest(BuildFormulaCase):
                 DEPS,
                 PREFIX,
                 TEST,
-                self.merge(),
                 ["brew", "formula", f"{TAP}/lz4"],
+                self.merge(),
             ],
         )
         self.assertEqual(self.fake.calls()[3]["cwd"], str(self.out))
