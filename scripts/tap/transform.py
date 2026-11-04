@@ -257,6 +257,19 @@ def move_bottle_to_marker(text: str) -> str:
     return apply_bottle(strip_bottle_block(text), block)
 
 
+def place_bottle(before: str, after: str) -> str:
+    """AFTER's bottle block, placed at the marker of BEFORE, the formula as it was before brew wrote it.
+
+    Moving the block out of AFTER cannot always tell which blank lines brew added
+    around it: inside `stable do` after a comment (rustup) it left one behind,
+    and verify refused the render. Starting from BEFORE leaves no trace.
+    """
+    block = extract_bottle_block(after)
+    if block is None:
+        return after
+    return apply_bottle(strip_bottle_block(before), block)
+
+
 def strip_bottle_block(text: str) -> str:
     lines = _lines(text)
     for start, end in reversed(_bottle_spans(lines)):

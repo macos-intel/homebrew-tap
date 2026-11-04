@@ -16,6 +16,7 @@ from transform import (
     move_bottle_to_marker,
     order_dependencies,
     parse_header,
+    place_bottle,
     qualify_dependencies,
     qualify_formula_lookups,
     render_body,
@@ -170,6 +171,33 @@ class MoveBottleTest(unittest.TestCase):
     def test_without_a_block_is_identity(self):
         text = f"{BOTTLE_MARKER}\n\n  def install\n"
         self.assertEqual(move_bottle_to_marker(text), text)
+
+
+class PlaceBottleTest(unittest.TestCase):
+    """The block brew wrote goes into the formula as it was before brew touched it."""
+
+    BLOCK = MoveBottleTest.BLOCK
+    BEFORE = (
+        '  stable do\n    # TODO: drop curl\n    url "https://x/1.0.tar.gz"\n  end\n\n'
+        f"{BOTTLE_MARKER}\n\n  def install\n"
+    )
+
+    def test_a_block_brew_wrote_inside_a_comment_run_leaves_no_trace(self):
+        # rustup: brew put the block after a comment in `stable do`, with a blank
+        # line on each side; moving it left one of them behind.
+        after = self.BEFORE.replace("    # TODO: drop curl\n", "    # TODO: drop curl\n\n" + self.BLOCK + "\n")
+        expected = self.BEFORE.replace(f"{BOTTLE_MARKER}\n", f"{BOTTLE_MARKER}\n" + self.BLOCK)
+        self.assertEqual(place_bottle(self.BEFORE, after), expected)
+
+    def test_an_old_block_is_replaced_by_the_new_one(self):
+        old = self.BLOCK.replace("abc", "old")
+        before = self.BEFORE.replace(f"{BOTTLE_MARKER}\n", f"{BOTTLE_MARKER}\n" + old)
+        after = before.replace(old, self.BLOCK)
+        expected = self.BEFORE.replace(f"{BOTTLE_MARKER}\n", f"{BOTTLE_MARKER}\n" + self.BLOCK)
+        self.assertEqual(place_bottle(before, after), expected)
+
+    def test_without_a_written_block_the_formula_is_unchanged(self):
+        self.assertEqual(place_bottle(self.BEFORE, self.BEFORE), self.BEFORE)
 
 
 class CorePatchTest(unittest.TestCase):

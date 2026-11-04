@@ -8,7 +8,7 @@ from collections import Counter
 from collections.abc import Iterable, Mapping
 from pathlib import Path
 
-from transform import move_bottle_to_marker
+from transform import move_bottle_to_marker, place_bottle
 
 ROOT_URL_BASE = "https://github.com/macos-intel/homebrew-tap/releases/download"
 
@@ -61,6 +61,7 @@ def main(argv: list[str] | None = None) -> int:
     root.add_argument("version", help="package version: <version> or <version>_<revision>")
     place = commands.add_parser("place", help="move FORMULA's bottle block next to the bottle marker, in place")
     place.add_argument("formula", type=Path)
+    place.add_argument("--before", type=Path, help="FORMULA as it was before `brew bottle --write`")
     info = commands.add_parser("info-version", help="print NAME's pkg_version from `brew info --json=v2` on stdin")
     info.add_argument("name")
     args = parser.parse_args(argv)
@@ -73,7 +74,11 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "place":
         text = args.formula.read_text(encoding="utf-8")
-        args.formula.write_text(move_bottle_to_marker(text), encoding="utf-8")
+        if args.before is None:
+            placed = move_bottle_to_marker(text)
+        else:
+            placed = place_bottle(args.before.read_text(encoding="utf-8"), text)
+        args.formula.write_text(placed, encoding="utf-8")
         return 0
     print(root_url(args.name, args.version))
     return 0
